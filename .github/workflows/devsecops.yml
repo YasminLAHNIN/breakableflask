@@ -37,7 +37,3 @@ jobs:
       - name: Deploy
         run: |
           echo "Rien à faire ici. Votre application est prête à être déployée"
-
-git add .github/workflows/devsecops.yml Dockerfile
-git commit -m "feat: ajout du pipeline CI/CD et du Dockerfile"
-git push origin master
