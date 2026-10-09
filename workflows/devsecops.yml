@@ -4,16 +4,32 @@ jobs:
   Dependances:
     runs-on: ubuntu-latest
     steps:
-      - name: Dependances
-        run: |
-          echo "ecrire ici le scrypt de contrôle des dépendances"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner in fs mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+
   Dockerfile:
     runs-on: ubuntu-latest
     needs: Dependances
     steps:
-      - name: Test Dockerfile
-        run: |
-          echo "ecrire ici le scrypt de contrôle du Dockerfile"
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy scanner on Dockerfile
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          exit-code: '1'
+
   Deploy:
     runs-on: ubuntu-latest
     needs: Dockerfile
